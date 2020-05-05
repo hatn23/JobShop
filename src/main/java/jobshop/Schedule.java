@@ -132,4 +132,18 @@ public class Schedule {
         assert isCriticalPath(path);
         return path;
     }
+
+    public String toString(){
+        StringBuilder str = new StringBuilder();
+        for (int j = 0; j < times.length;j++){
+            str.append("Job number : ").append(j).append("\n");
+            for (int i = 0; i < times[j].length; i++){
+                str.append("Task number ").append(i).append(" ").append("starts at ").append(times[j][i]).append("\n");
+                //str.append(times[j][i]).append(" ");
+            }
+            //str.append(times[j][times[j].length-1]).append("\n");
+            //str.append("Task number ").append(j).append(" ").append("starts at ").append(times[j][times[j].length-1]).append("\n");
+        }
+        return str.toString();
+    }
 }

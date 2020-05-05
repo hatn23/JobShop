@@ -28,7 +28,7 @@ public class EncodingTests {
         Schedule sched = enc.toSchedule();
         // TODO: make it print something meaningful
         // by implementing the toString() method
-        System.out.println(sched);
+        System.out.println(sched.toString());
         assert sched.isValid();
         assert sched.makespan() == 12;
 
@@ -46,6 +46,7 @@ public class EncodingTests {
         sched = enc.toSchedule();
         assert sched.isValid();
         assert sched.makespan() == 14;
+        System.out.println(sched.toString());
     }
 
     @Test
