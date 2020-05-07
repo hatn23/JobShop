@@ -3,6 +3,7 @@ package jobshop.solvers;
 import jobshop.Instance;
 import jobshop.Result;
 import jobshop.Solver;
+import jobshop.encodings.ResourceOrder;
 import jobshop.encodings.Task;
 
 import java.util.ArrayList;
@@ -109,8 +110,50 @@ public class GreedySolver implements Solver {
 
     @Override
     public Result solve(Instance instance, long deadline) {
-        return null;
+        ResourceOrder solution = new ResourceOrder(instance);
+        ArrayList<Task> listToSchedule = new ArrayList<>();
+        //time remaining of each job
+        int[] remainingTime = new int[instance.numJobs];
+        int[][] end = new int[instance.numJobs][instance.numTasks];
+        int[] releaseTime = new int[instance.numMachines];
+        for (int i = 0; i < instance.numJobs; i++){
+            listToSchedule.add(new Task(i,0));
+        }
+        //Initialize remainingTime[] only for SRPT,LRPT
+        if (priorityRule.name() == "SRPT " || priorityRule.name() == "LRPT"){
+            for (int i = 0; i < instance.numJobs; i++){
+                for (int j = 0; j < instance.numTasks; j ++){
+                    remainingTime[i] += instance.duration(i,j);
+                }
+            }
+        }
+
+        while (listToSchedule.size() > 0){
+            Task task;
+            switch (priorityRule){
+                case LPT:
+                    task = LPT(instance,listToSchedule);
+                    break;
+                case SPT:
+                    task = SPT(instance,listToSchedule);
+                    break;
+                case LRPT:
+                    task = LRPT(instance,listToSchedule,remainingTime);
+                    break;
+                case SRPT:
+                    task = SRPT(instance,listToSchedule,remainingTime);
+                    break;
+                default:
+                    task = SPT(instance,listToSchedule);
+                    break;
+            }
+            int machine = instance.machine(task);
+            //Schedule task
+            solution.tasksByMachine[machine][solution.nextFreeSlot[machine]++] = task;
+            if (task.task < instance.numTasks - 1){
+                listToSchedule.add(new Task(task.job, task.task + 1));
+            }
+        }
+        return new Result(instance, solution.toSchedule(), Result.ExitCause.Blocked);
     }
-
-
 }
