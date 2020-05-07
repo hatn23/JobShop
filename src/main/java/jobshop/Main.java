@@ -31,7 +31,7 @@ public class Main {
         solvers.put("greedyLRPT", new GreedySolver(GreedySolver.Priority.LRPT));
         solvers.put("greedyEST_SPT", new GreedySolver(GreedySolver.Priority.EST_SPT));
         solvers.put("greedyEST_LRPT", new GreedySolver(GreedySolver.Priority.EST_LRPT));
-
+        solvers.put("descent",new DescentSolver());
     }
 
 
