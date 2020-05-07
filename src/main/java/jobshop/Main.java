@@ -25,6 +25,13 @@ public class Main {
         solvers.put("basic", new BasicSolver());
         solvers.put("random", new RandomSolver());
         // add new solvers here
+        solvers.put("greedySPT", new GreedySolver(GreedySolver.Priority.SPT));
+        solvers.put("greedyLPT", new GreedySolver(GreedySolver.Priority.LPT));
+        solvers.put("greedySRPT", new GreedySolver(GreedySolver.Priority.SRPT));
+        solvers.put("greedyLRPT", new GreedySolver(GreedySolver.Priority.LRPT));
+        solvers.put("greedyEST_SPT", new GreedySolver(GreedySolver.Priority.EST_SPT));
+        solvers.put("greedyEST_LRPT", new GreedySolver(GreedySolver.Priority.EST_LRPT));
+
     }
 
 

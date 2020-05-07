@@ -14,7 +14,9 @@ public class GreedySolver implements Solver {
         SPT,
         LPT,
         SRPT,
-        LRPT
+        LRPT,
+        EST_SPT,
+        EST_LRPT
     }
 
     private Priority priorityRule;
@@ -108,6 +110,71 @@ public class GreedySolver implements Solver {
         return listTasks.remove(bestTask);
     }
 
+    private ArrayList<Task> listESTTask (Instance instance, ArrayList<Task> listTasks, int[][] end, int[] releaseTime){
+        Task task = listTasks.get(0);
+        ArrayList<Task> newList = new ArrayList<>();
+        newList.add(task);
+        int estTask = task.task == 0 ? 0 : end[task.job][task.task - 1];
+        int bestTask = Math.max(releaseTime[instance.machine(task)], estTask);
+        for (int i = 1; i < listTasks.size(); i++) {
+            task = listTasks.get(i);
+            estTask = task.task == 0 ? 0 : end[task.job][task.task - 1];
+            int start = Math.max(releaseTime[instance.machine(task)], estTask);
+            if (start < bestTask) {
+                newList.clear();
+                newList.add(task);
+                bestTask = start;
+            } else if (start == bestTask)
+                newList.add(task);
+        }
+        return newList;
+    }
+
+    private void updateEST(Instance instance, Task task, int[][] end, int[] releaseTime) {
+        int machine = instance.machine(task);
+        int duration = +instance.duration(task);
+        int estTask = task.task == 0 ? 0 : end[task.job][task.task - 1];
+        end[task.job][task.task] = Math.max(releaseTime[machine], estTask) + duration;
+        releaseTime[machine] = end[task.job][task.task];
+    }
+
+    private Task EST_SPT(Instance instance, ArrayList<Task> listTasks, int[][] end, int[] releaseTime) {
+        ArrayList<Task> reduce = listESTTask(instance, listTasks, end, releaseTime);
+        Task task = SPT(instance, reduce);
+        updateEST(instance, task, end, releaseTime);
+        listTasks.remove(task);
+        return task;
+    }
+
+    private Task EST_LRPT(Instance instance, ArrayList<Task> listTasks, int[][] end, int[] releaseTime, int[] remainingTime) {
+        int[] reduce = EST_RPT(instance, listTasks, remainingTime, end, releaseTime);
+        Task task = LRPT(instance, listTasks, reduce);
+        updateEST(instance, task, end, releaseTime);
+        remainingTime[task.job] = reduce[task.job];
+        return task;
+    }
+
+    private int[] EST_RPT(Instance instance, ArrayList<Task> listTasks, int[] remainingTime, int[][] endAt, int[] releaseTime) {
+        int[] reducer = new int[remainingTime.length];
+        Task currentTask = listTasks.get(0);
+        int estTask = currentTask.task == 0 ? 0 : endAt[currentTask.job][currentTask.task - 1];
+        int bestTask = Math.max(releaseTime[instance.machine(currentTask)], estTask);
+        reducer[currentTask.job] = remainingTime[currentTask.job];
+        for (int i = 1; i < listTasks.size(); i++) {
+            currentTask = listTasks.get(i);
+            estTask = currentTask.task == 0 ? 0 : endAt[currentTask.job][currentTask.task - 1];
+            int start = Math.max(releaseTime[instance.machine(currentTask)], estTask);
+            if (start < bestTask) {
+                reducer = new int[remainingTime.length];
+                reducer[listTasks.get(i).job] = remainingTime[listTasks.get(i).job];
+                bestTask = start;
+            } else if (start == bestTask)
+                reducer[listTasks.get(i).job] = remainingTime[listTasks.get(i).job];
+        }
+        return reducer;
+    }
+
+
     @Override
     public Result solve(Instance instance, long deadline) {
         ResourceOrder solution = new ResourceOrder(instance);
@@ -120,7 +187,7 @@ public class GreedySolver implements Solver {
             listToSchedule.add(new Task(i,0));
         }
         //Initialize remainingTime[] only for SRPT,LRPT
-        if (priorityRule.name() == "SRPT " || priorityRule.name() == "LRPT"){
+        if (priorityRule.name() == "SRPT " || priorityRule.name() == "LRPT" ||priorityRule.name() == "EST_LRPT" ){
             for (int i = 0; i < instance.numJobs; i++){
                 for (int j = 0; j < instance.numTasks; j ++){
                     remainingTime[i] += instance.duration(i,j);
@@ -143,8 +210,14 @@ public class GreedySolver implements Solver {
                 case SRPT:
                     task = SRPT(instance,listToSchedule,remainingTime);
                     break;
+                case EST_SPT:
+                    task = EST_SPT(instance,listToSchedule,end,releaseTime);
+                    break;
+                case EST_LRPT:
+                    task = EST_LRPT(instance,listToSchedule,end,releaseTime,remainingTime);
+                    break;
                 default:
-                    task = SPT(instance,listToSchedule);
+                    task = EST_SPT(instance,listToSchedule,end,releaseTime);
                     break;
             }
             int machine = instance.machine(task);
