@@ -91,35 +91,33 @@ public class DescentSolver implements Solver {
         deadline = deadline + System.currentTimeMillis();
 
         Result result = new GreedySolver(GreedySolver.Priority.SPT).solve(instance,deadline);
-        //Schedule best = result.schedule;
+        ResourceOrder order = new ResourceOrder(result.schedule);
         int best = result.schedule.makespan();
-        while(deadline - System.currentTimeMillis() > 1) {
-            boolean foundBetter = false;
-            ResourceOrder order = new ResourceOrder(result.schedule);
+        boolean foundBetter = true;
+        ResourceOrder optimalOrder = order.copy();
+        while(((deadline - System.currentTimeMillis()) > 1) && foundBetter) {
+            foundBetter = false;
             List<Block> listBlock = blocksOfCriticalPath(order);
-            for (Block currentBlock : listBlock){
-                List<Swap> listSwap = neighbors(currentBlock);
-                for (Swap currentSwap : listSwap){
-                    ResourceOrder newOrder = order.copy();
-                    currentSwap.applyOn(newOrder);
-                    int makespan = newOrder.toSchedule().makespan();
-                    if (makespan < best){
+            List<Swap> listSwap = new ArrayList<>();
+            for (int i = 0; i < listBlock.size(); i++) {
+                listSwap.addAll(neighbors(listBlock.get(i)));
+            }
+            for (int i = 0; i < listSwap.size(); i++) {
+                ResourceOrder currentOrder = optimalOrder.copy();
+                Schedule schedule = currentOrder.toSchedule();
+                listSwap.get(i).applyOn(currentOrder);
+                Schedule newSchedule = currentOrder.toSchedule();
+                if (newSchedule != null) {
+                    int makespan = newSchedule.makespan();
+                    if (best > makespan) {
+                        optimalOrder = currentOrder;
                         best = makespan;
-                        order = newOrder;
-                        if (!foundBetter) {
-                            foundBetter = true;
-                        }
+                        foundBetter = true;
                     }
                 }
             }
-            if (foundBetter){
-                result = new Result(order.instance, order.toSchedule(),Result.ExitCause.Blocked);
-            }
-            else {
-                return result;
-            }
         }
-        return new Result(result.instance, result.schedule,Result.ExitCause.Timeout);
+        return new Result(optimalOrder.instance, optimalOrder.toSchedule(),Result.ExitCause.Timeout);
     }
 
     /** Returns a list of all blocks of the critical path. */
@@ -152,6 +150,7 @@ public class DescentSolver implements Solver {
     /** For a given block, return the possible swaps for the Nowicki and Smutnicki neighborhood */
     List<Swap> neighbors(Block block) {
         List<Swap> swapList = new ArrayList<>();
+        
         if (block.lastTask - block.firstTask != 1 ){
             swapList.add(new Swap(block.machine, block.firstTask, block.lastTask));
         }
@@ -159,6 +158,8 @@ public class DescentSolver implements Solver {
             swapList.add(new Swap(block.machine, block.firstTask, block.firstTask + 1));
             swapList.add(new Swap(block.machine, block.lastTask -1 , block.lastTask));
         }
+        //System.out.print("firstTask :" + block.firstTask);
+        //System.out.print("lastTask :" + block.lastTask);
         return swapList;
     }
 
