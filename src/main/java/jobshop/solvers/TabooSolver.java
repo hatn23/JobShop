@@ -28,11 +28,11 @@ public class TabooSolver implements Solver {
             this.durationTaboo = durationTaboo;
         }
 
-        public void add(DescentSolver.Swap swap, int k) {
+        public void add(Utils.Swap swap, int k) {
             tab[swap.t1][swap.t2] = k + durationTaboo;
         }
 
-        public boolean check(DescentSolver.Swap swap, int k) {
+        public boolean check(Utils.Swap swap, int k) {
             return k > tab[swap.t1][swap.t2];
         }
     }
@@ -49,14 +49,14 @@ public class TabooSolver implements Solver {
             cpt++;
             ResourceOrder order = new ResourceOrder(result.schedule);
             ResourceOrder current_order = new ResourceOrder(current_result.schedule);
-            List<DescentSolver.Block> blocksList = DescentSolver.blocksOfCriticalPath(current_order);
-            DescentSolver.Swap bestSwap = null;
+            List<Utils.Block> blocksList = Utils.blocksOfCriticalPath(current_order);
+            Utils.Swap bestSwap = null;
             int best_local = -1;
 
-            for (DescentSolver.Block block : blocksList) {
-                List<DescentSolver.Swap> swapList = DescentSolver.neighbors(block);
-                swapList = DescentSolver.neighbors(block);
-                for (DescentSolver.Swap swap : swapList) {
+            for (Utils.Block block : blocksList) {
+                List<Utils.Swap> swapList = Utils.neighbors(block);
+                swapList = Utils.neighbors(block);
+                for (Utils.Swap swap : swapList) {
                     if (sTaboo.check(swap, cpt)) {
                         ResourceOrder copy = current_order.copy();
                         swap.applyOn(copy);
@@ -76,7 +76,6 @@ public class TabooSolver implements Solver {
             if (bestSwap != null) {
                 sTaboo.add(bestSwap, cpt);
             }
-            //on actualise s et s_local
             current_result = new Result(current_order.instance, current_order.toSchedule(), Result.ExitCause.Blocked);
             result = new Result(order.instance, order.toSchedule(), Result.ExitCause.Blocked);
         }

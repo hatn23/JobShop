@@ -179,21 +179,26 @@ public class GreedySolver implements Solver {
     public Result solve(Instance instance, long deadline) {
         ResourceOrder solution = new ResourceOrder(instance);
         ArrayList<Task> listToSchedule = new ArrayList<>();
+
         //time remaining of each job
+
         int[] remainingTime = new int[instance.numJobs];
-        int[][] end = new int[instance.numJobs][instance.numTasks];
-        int[] releaseTime = new int[instance.numMachines];
+
+
         for (int i = 0; i < instance.numJobs; i++){
             listToSchedule.add(new Task(i,0));
         }
         //Initialize remainingTime[] only for SRPT,LRPT
-        if (priorityRule.name() == "SRPT " || priorityRule.name() == "LRPT" ||priorityRule.name() == "EST_LRPT" ){
+        if (priorityRule.name().endsWith("RPT")){
             for (int i = 0; i < instance.numJobs; i++){
                 for (int j = 0; j < instance.numTasks; j ++){
                     remainingTime[i] += instance.duration(i,j);
                 }
             }
         }
+        int[][] end = new int[instance.numJobs][instance.numTasks];
+        int[] releaseTime = new int[instance.numMachines];
+
 
         while (listToSchedule.size() > 0){
             Task task;
