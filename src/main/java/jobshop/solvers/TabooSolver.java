@@ -11,12 +11,12 @@ import java.util.List;
 
 public class TabooSolver implements Solver {
 
-    private int maxIter = 500;
-    private int durationTaboo = 10;
+    private int maxIter ;
+    private int durationTaboo;
 
-    public TabooSolver(int maxIter, int duration){
+    public TabooSolver(int maxIter, int durationTaboo){
         this.maxIter = maxIter;
-        this.durationTaboo = duration;
+        this.durationTaboo = durationTaboo;
     }
 
     static class sTaboo {
@@ -43,18 +43,18 @@ public class TabooSolver implements Solver {
         Result result = new GreedySolver(GreedySolver.Priority.EST_LRPT).solve(instance,deadline);
         Result current_result = result;
         int best = result.schedule.makespan();
-        ResourceOrder order = new ResourceOrder(result.schedule);
-        ResourceOrder current_order = order.copy();
-        int ind = instance.numJobs * instance.numMachines;
+        sTaboo sTaboo = new sTaboo(instance.numMachines, instance.numJobs, durationTaboo);
         int cpt = 0;
         while (cpt < maxIter && deadline - System.currentTimeMillis() > 1){
             cpt++;
+            ResourceOrder order = new ResourceOrder(result.schedule);
+            ResourceOrder current_order = new ResourceOrder(current_result.schedule);
             List<DescentSolver.Block> blocksList = DescentSolver.blocksOfCriticalPath(current_order);
-            List<DescentSolver.Swap> swapList = new ArrayList<>();
             DescentSolver.Swap bestSwap = null;
             int best_local = -1;
 
             for (DescentSolver.Block block : blocksList) {
+                List<DescentSolver.Swap> swapList = DescentSolver.neighbors(block);
                 swapList = DescentSolver.neighbors(block);
                 for (DescentSolver.Swap swap : swapList) {
                     if (sTaboo.check(swap, cpt)) {
