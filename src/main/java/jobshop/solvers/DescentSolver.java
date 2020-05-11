@@ -121,7 +121,7 @@ public class DescentSolver implements Solver {
     }
 
     /** Returns a list of all blocks of the critical path. */
-    List<Block> blocksOfCriticalPath(ResourceOrder order) {
+    static List<Block> blocksOfCriticalPath(ResourceOrder order) {
         List<Task> criticalPath = order.toSchedule().criticalPath();
         List<Block> listBlocks = new ArrayList<>();
         int currentMachine = order.instance.machine(criticalPath.get(0));
@@ -148,7 +148,7 @@ public class DescentSolver implements Solver {
     }
 
     /** For a given block, return the possible swaps for the Nowicki and Smutnicki neighborhood */
-    List<Swap> neighbors(Block block) {
+    static List<Swap> neighbors(Block block) {
         List<Swap> swapList = new ArrayList<>();
         
         if (block.lastTask - block.firstTask != 1 ){

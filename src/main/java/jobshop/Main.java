@@ -32,6 +32,8 @@ public class Main {
         solvers.put("greedyEST_SPT", new GreedySolver(GreedySolver.Priority.EST_SPT));
         solvers.put("greedyEST_LRPT", new GreedySolver(GreedySolver.Priority.EST_LRPT));
         solvers.put("descent",new DescentSolver());
+        solvers.put("taboo", new TabooSolver(100, 10));
+
     }
 
 
