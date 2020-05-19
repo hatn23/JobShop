@@ -9,14 +9,14 @@ import jobshop.encodings.Task;
 import java.util.ArrayList;
 
 public class GreedySolver implements Solver {
-
+    //Priority Rule
     public enum Priority{
-        SPT,
-        LPT,
-        SRPT,
-        LRPT,
-        EST_SPT,
-        EST_LRPT
+        SPT, //Shortest Processing Time
+        LPT, //Longest Processing Time
+        SRPT, //Shortest Remaining Processing Time
+        LRPT, //Longest Remaining Processing Time
+        EST_SPT, //Earliest Start Time & Shortest Processing Time
+        EST_LRPT //Earliest Start Time & Longest Remaining Processing Time
     }
 
     private Priority priorityRule;
@@ -114,18 +114,22 @@ public class GreedySolver implements Solver {
         Task task = listTasks.get(0);
         ArrayList<Task> newList = new ArrayList<>();
         newList.add(task);
+        //similar to ResourceOrder
         int estTask = task.task == 0 ? 0 : end[task.job][task.task - 1];
         int bestTask = Math.max(releaseTime[instance.machine(task)], estTask);
         for (int i = 1; i < listTasks.size(); i++) {
             task = listTasks.get(i);
             estTask = task.task == 0 ? 0 : end[task.job][task.task - 1];
             int start = Math.max(releaseTime[instance.machine(task)], estTask);
+            //if current task begin earlier than the best task, empty the list and add the current task to the List
+            //else if they begin at the same time, add the current Task to the List
             if (start < bestTask) {
                 newList.clear();
                 newList.add(task);
                 bestTask = start;
-            } else if (start == bestTask)
+            } else if (start == bestTask) {
                 newList.add(task);
+            }
         }
         return newList;
     }
@@ -177,18 +181,17 @@ public class GreedySolver implements Solver {
 
     @Override
     public Result solve(Instance instance, long deadline) {
+        //Representation by ResourceOrder of solution
         ResourceOrder solution = new ResourceOrder(instance);
+        //List of task to scheduled
         ArrayList<Task> listToSchedule = new ArrayList<>();
-
-        //time remaining of each job
-
+        //time remaining of each job, only used for SRPT, LRPT and EST_LRPT
         int[] remainingTime = new int[instance.numJobs];
-
-
+        //Initialize List of feasible tasks by the first task of each job
         for (int i = 0; i < instance.numJobs; i++){
             listToSchedule.add(new Task(i,0));
         }
-        //Initialize remainingTime[] only for SRPT,LRPT
+        //Initialize remainingTime[] only for SRPT,LRPT and EST_LRPT
         if (priorityRule.name().endsWith("RPT")){
             for (int i = 0; i < instance.numJobs; i++){
                 for (int j = 0; j < instance.numTasks; j ++){
@@ -196,12 +199,14 @@ public class GreedySolver implements Solver {
                 }
             }
         }
+        //Array of end time of each task, if task haven't been processed yet, this value = 0 by default
         int[][] end = new int[instance.numJobs][instance.numTasks];
+        //Array of time when each machine is released
         int[] releaseTime = new int[instance.numMachines];
-
-
+        //While there are still tasks to be executed
         while (listToSchedule.size() > 0){
             Task task;
+            //Task given by the corresponding method of glouton
             switch (priorityRule){
                 case LPT:
                     task = LPT(instance,listToSchedule);
@@ -225,9 +230,11 @@ public class GreedySolver implements Solver {
                     task = EST_SPT(instance,listToSchedule,end,releaseTime);
                     break;
             }
+            //Machine that execute Task
             int machine = instance.machine(task);
             //Schedule task
             solution.tasksByMachine[machine][solution.nextFreeSlot[machine]++] = task;
+            //if Task is not the last one, add the next task to the list of task to scheduled
             if (task.task < instance.numTasks - 1){
                 listToSchedule.add(new Task(task.job, task.task + 1));
             }

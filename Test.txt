@@ -1,0 +1,71 @@
+-----------------Test Resource Order-----------------
+Machine 0 : (0, 0} ; (1, 1} ; 
+Machine 1 : (1, 0} ; (0, 1} ; 
+Machine 2 : (0, 2} ; (1, 2} ; 
+
+Job number : 0
+Task number 0 starts at 0
+Task number 1 starts at 3
+Task number 2 starts at 6
+Job number : 1
+Task number 0 starts at 0
+Task number 1 starts at 3
+Task number 2 starts at 8
+
+Machine 0 : (0, 0} ; (1, 1} ; 
+Machine 1 : (1, 0} ; (0, 1} ; 
+Machine 2 : (0, 2} ; (1, 2} ; 
+
+Job number : 0
+Task number 0 starts at 0
+Task number 1 starts at 3
+Task number 2 starts at 6
+Job number : 1
+Task number 0 starts at 0
+Task number 1 starts at 3
+Task number 2 starts at 8
+
+Machine 0 : (1, 1} ; (0, 0} ; 
+Machine 1 : (1, 0} ; (0, 1} ; 
+Machine 2 : (0, 2} ; (1, 2} ; 
+
+Job number : 0
+Task number 0 starts at 4
+Task number 1 starts at 7
+Task number 2 starts at 10
+Job number : 1
+Task number 0 starts at 0
+Task number 1 starts at 2
+Task number 2 starts at 12
+
+Machine 0 : (1, 1} ; (0, 0} ; 
+Machine 1 : (1, 0} ; (0, 1} ; 
+Machine 2 : (0, 2} ; (1, 2} ; 
+
+Job number : 0
+Task number 0 starts at 4
+Task number 1 starts at 7
+Task number 2 starts at 10
+Job number : 1
+Task number 0 starts at 0
+Task number 1 starts at 2
+Task number 2 starts at 12
+
+-----------------Test Job Number-----------------
+Job number : 0
+Task number 0 starts at 0
+Task number 1 starts at 3
+Task number 2 starts at 6
+Job number : 1
+Task number 0 starts at 0
+Task number 1 starts at 3
+Task number 2 starts at 8
+
+Job number : 0
+Task number 0 starts at 0
+Task number 1 starts at 3
+Task number 2 starts at 6
+Job number : 1
+Task number 0 starts at 6
+Task number 1 starts at 8
+Task number 2 starts at 10

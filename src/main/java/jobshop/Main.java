@@ -25,14 +25,44 @@ public class Main {
         solvers.put("basic", new BasicSolver());
         solvers.put("random", new RandomSolver());
         // add new solvers here
+        // ******************** Greedy Solver ******************** //
         solvers.put("greedySPT", new GreedySolver(GreedySolver.Priority.SPT));
         solvers.put("greedyLPT", new GreedySolver(GreedySolver.Priority.LPT));
         solvers.put("greedySRPT", new GreedySolver(GreedySolver.Priority.SRPT));
         solvers.put("greedyLRPT", new GreedySolver(GreedySolver.Priority.LRPT));
         solvers.put("greedyEST_SPT", new GreedySolver(GreedySolver.Priority.EST_SPT));
         solvers.put("greedyEST_LRPT", new GreedySolver(GreedySolver.Priority.EST_LRPT));
-        solvers.put("descent",new DescentSolver());
-        solvers.put("taboo", new TabooSolver(100, 10));
+        // ******************* Descent Solver ******************** //
+        solvers.put("descentSPT",new DescentSolver(GreedySolver.Priority.SPT));
+        solvers.put("descentLPT",new DescentSolver(GreedySolver.Priority.LPT));
+        solvers.put("descentSRPT",new DescentSolver(GreedySolver.Priority.SRPT));
+        solvers.put("descentLRPT",new DescentSolver(GreedySolver.Priority.LRPT));
+        solvers.put("descentEST_SPT",new DescentSolver(GreedySolver.Priority.EST_SPT));
+        solvers.put("descentEST_LRPT",new DescentSolver(GreedySolver.Priority.EST_LRPT));
+        // ******************* Taboo Solver ******************** //
+        solvers.put("taboo(1,1)", new TabooSolver(1, 1));
+        solvers.put("taboo(10,1)", new TabooSolver(10, 1));
+        solvers.put("taboo(10,2)", new TabooSolver(10, 2));
+        solvers.put("taboo(10,3)", new TabooSolver(10, 3));
+        solvers.put("taboo(10,4)", new TabooSolver(10, 4));
+        solvers.put("taboo(10,5)", new TabooSolver(10, 5));
+        solvers.put("taboo(10,6)", new TabooSolver(10, 6));
+        solvers.put("taboo(10,7)", new TabooSolver(10, 7));
+        solvers.put("taboo(10,8)", new TabooSolver(10, 8));
+        solvers.put("taboo(10,9)", new TabooSolver(10, 9));
+        solvers.put("taboo(10,10)", new TabooSolver(10, 10));
+
+        solvers.put("taboo(100,1)", new TabooSolver(100, 1));
+        solvers.put("taboo(100,3)", new TabooSolver(100, 3));
+        solvers.put("taboo(100,5)", new TabooSolver(100, 5));
+        solvers.put("taboo(100,10)", new TabooSolver(100, 10));
+        solvers.put("taboo(100,12)", new TabooSolver(100, 12));
+        solvers.put("taboo(100,15)", new TabooSolver(100, 15));
+        solvers.put("taboo(100,20)", new TabooSolver(100, 20));
+        solvers.put("taboo(100,30)", new TabooSolver(100, 30));
+        solvers.put("taboo(100,50)", new TabooSolver(100, 50));
+        solvers.put("taboo(100,100)", new TabooSolver(100, 100));
+        solvers.put("taboo(5000,5000)", new TabooSolver(5000, 5000));
 
     }
 
