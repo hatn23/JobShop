@@ -58,21 +58,28 @@ public class DescentSolver implements Solver {
         }
     }
 
+    /** Returns a list of all blocks of the critical path. */
     static List<Block> blocksOfCriticalPath(ResourceOrder order) {
+        //critical path of order
         List<Task> criticalPath = order.toSchedule().criticalPath();
+        //list of blocks of critical path
         List<Block> blocksList = new ArrayList<>();
         Task t = criticalPath.get(0);
         int machine = order.instance.machine(t);
+        //the position in the order of execution of the machine
         int firstTask = Arrays.asList(order.tasksByMachine[machine]).indexOf(t);
         int lastTask = firstTask;
         for (int i = 1; i < criticalPath.size(); i++) {
             t = criticalPath.get(i);
+            //verify if both tasks are executed by the same machine
             if (machine == order.instance.machine(t)) {
                 lastTask++;
             } else {
+                //verify if a block exist
                 if (firstTask != lastTask) {
                     blocksList.add(new Block(machine, firstTask, lastTask));
                 }
+                //reset variables
                 machine = order.instance.machine(t);
                 firstTask = Arrays.asList(order.tasksByMachine[machine]).indexOf(t);
                 lastTask = firstTask;
@@ -84,9 +91,11 @@ public class DescentSolver implements Solver {
         return blocksList;
     }
 
+    /** For a given block, return the possible swaps for the Nowicki and Smutnicki neighborhood */
     static List<Swap> neighbors(Block block) {
         List<Swap> swapList = new ArrayList<>();
         swapList.add(new Swap(block.machine, block.firstTask, block.firstTask+1));
+        // if size of Block > 2
         if (block.firstTask != block.lastTask+1) {
             swapList.add(new Swap(block.machine, block.lastTask-1, block.lastTask));
         }
