@@ -68,7 +68,12 @@ public class Main {
         solvers.put("taboo(100,15)", new TabooSolver(100, 15));
         solvers.put("taboo(100,20)", new TabooSolver(100, 20));
         solvers.put("taboo(100,30)", new TabooSolver(100, 30));
+        solvers.put("taboo(100,40)", new TabooSolver(100, 40));
         solvers.put("taboo(100,50)", new TabooSolver(100, 50));
+        solvers.put("taboo(100,60)", new TabooSolver(100, 60));
+        solvers.put("taboo(100,70)", new TabooSolver(100, 70));
+        solvers.put("taboo(100,80)", new TabooSolver(100, 80));
+        solvers.put("taboo(100,90)", new TabooSolver(100, 90));
         solvers.put("taboo(100,100)", new TabooSolver(100, 100));
         solvers.put("taboo(5000,5000)", new TabooSolver(5000, 5000));
 

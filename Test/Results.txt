@@ -11,6 +11,35 @@ java -jar build/libs/JSP.jar --solver descentEST_SPT descentEST_LRPT  --instance
 java -jar build/libs/JSP.jar --solver descentEST_LPT descentEST_SRPT  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > DescentEST_LPT_SRPT.txt
 
 
+java -jar build/libs/JSP.jar --solver "taboo(10,1)" "taboo(10,2)" "taboo(10,3)" "taboo(10,4)" "taboo(10,5)" "taboo(10,6)"    --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > Taboo10_1.txt
+
+java -jar build/libs/JSP.jar --solver "taboo(10,7)" "taboo(10,8)" "taboo(10,9)" "taboo(10,10)" "taboo(10,20)" "taboo(10,50)" "taboo(10,100)"  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > Taboo10_2.txt
+
+java -jar build/libs/JSP.jar --solver "taboo(100,1)" "taboo(100,3)" "taboo(100,5)" "taboo(100,10)" "taboo(100,15)" "taboo(100,20)" "taboo(100,30)"     --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > Taboo100_1.txt
+
+java -jar build/libs/JSP.jar --solver "taboo(100,40)" "taboo(100,50)" "taboo(100,60)" "taboo(100,70)" "taboo(100,80)" "taboo(100,90)" "taboo(100,100)"     --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > Taboo100_1.txt
+
+
+java -jar build/libs/JSP.jar --solver "taboo(10,1)" "taboo(10,3)" "taboo(10,5)"   --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > Taboo10_1.txt
+
+java -jar build/libs/JSP.jar --solver "taboo(10,7)" "taboo(10,10)" "taboo(10,50)"   --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > Taboo10_2.txt
+
+java -jar build/libs/JSP.jar --solver "taboo(100,1)" "taboo(100,3)" "taboo(100,5)"   --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > Taboo10_1.txt
+
+java -jar build/libs/JSP.jar --solver "taboo(100,10)" "taboo(100,20)" "taboo(100,40)"   --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > Taboo100_1.txt
+
+java -jar build/libs/JSP.jar --solver "taboo(100,50)" "taboo(100,70)" "taboo(100,100)"   --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > Taboo100_1.txt
+
+
+
+
+
+
+
+
+
+
+
 
 
 
