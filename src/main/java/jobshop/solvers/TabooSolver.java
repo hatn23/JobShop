@@ -50,7 +50,7 @@ public class TabooSolver implements Solver {
         // Here I use EST_LRPT because it give the best results among all heuristic glouton
         Result result = new GreedySolver(GreedySolver.Priority.EST_LRPT).solve(instance,deadline);
         // Best result of the current iteration
-        Result current_result = result;
+        Result currentResult = result;
         int best = result.schedule.makespan();
         //Taboo solution to check if the solution if already visited
         sTaboo sTaboo = new sTaboo(instance.numMachines, instance.numJobs, durationTaboo);
@@ -62,12 +62,12 @@ public class TabooSolver implements Solver {
             //Order of best schedule
             ResourceOrder order = new ResourceOrder(result.schedule);
             //Order of the best schedule of the current iteration
-            ResourceOrder current_order = new ResourceOrder(current_result.schedule);
+            ResourceOrder currentOrder = new ResourceOrder(currentResult.schedule);
             //List of Blocks of critical path
-            List<DescentSolver.Block> blocksList = DescentSolver.blocksOfCriticalPath(current_order);
+            List<DescentSolver.Block> blocksList = DescentSolver.blocksOfCriticalPath(currentOrder);
             //bestSwap is used to store the local best result
             DescentSolver.Swap bestSwap = null;
-            int best_local = -1;
+            int bestLocal = -1;
             for (DescentSolver.Block block : blocksList) {
                 // List of Swap of the current Block
                 List<DescentSolver.Swap> swapList = DescentSolver.neighbors(block);
@@ -76,7 +76,7 @@ public class TabooSolver implements Solver {
                     //Check if it is possible to do Swap
                     if (sTaboo.check(swap, cpt)) {
                         //Copy the order of the best schedule of the current iteration
-                        ResourceOrder copy = current_order.copy();
+                        ResourceOrder copy = currentOrder.copy();
                         //Apply the Swap
                         swap.applyOn(copy);
                         int makespan ;
@@ -87,11 +87,11 @@ public class TabooSolver implements Solver {
                             return result;
                         }
                         // if the result given by Swap is better than the local best result
-                        if (best_local == -1 || makespan < best_local) {
+                        if (bestLocal == -1 || makespan < bestLocal) {
                             bestSwap = swap;
-                            best_local = makespan;
-                            current_order = copy;
-                            //if the result given by Swap is also better then the best result
+                            bestLocal = makespan;
+                            currentOrder = copy;
+                            //if the result given by Swap is also better than the best result
                             if (makespan < best) {
                                 //Update the best result
                                 best = makespan;
@@ -107,12 +107,14 @@ public class TabooSolver implements Solver {
                 sTaboo.add(bestSwap, cpt);
             }
             //Update the best result and the local best result
-            current_result = new Result(current_order.instance, current_order.toSchedule(), Result.ExitCause.Blocked);
+            currentResult = new Result(currentOrder.instance, currentOrder.toSchedule(), Result.ExitCause.Blocked);
             result = new Result(order.instance, order.toSchedule(), Result.ExitCause.Blocked);
         }
         //If the no of maxIter or the deadline is reached
         //exit (TimeOut)
-        if (cpt == maxIter) return result;
+        if (cpt == maxIter) {
+            return result;
+        }
         return new Result(result.instance, result.schedule, Result.ExitCause.Timeout);
     }
 }

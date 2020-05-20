@@ -74,7 +74,8 @@ public class DescentSolver implements Solver {
             //verify if both tasks are executed by the same machine
             if (machine == order.instance.machine(t)) {
                 lastTask++;
-            } else {
+            }
+            else {
                 //verify if a block exist
                 if (firstTask != lastTask) {
                     blocksList.add(new Block(machine, firstTask, lastTask));
@@ -117,7 +118,7 @@ public class DescentSolver implements Solver {
         //order which corresponds to the best schedule
         ResourceOrder order = new ResourceOrder(result.schedule);
         int best = result.schedule.makespan();
-        //until the deadline is not reach
+        //until the deadline is not reached
         while((deadline - System.currentTimeMillis()) > 1) {
             //exit by default (in case that no better order is found)
             boolean foundBetter = true;

@@ -31,6 +31,8 @@ public class Main {
         solvers.put("greedySRPT", new GreedySolver(GreedySolver.Priority.SRPT));
         solvers.put("greedyLRPT", new GreedySolver(GreedySolver.Priority.LRPT));
         solvers.put("greedyEST_SPT", new GreedySolver(GreedySolver.Priority.EST_SPT));
+        solvers.put("greedyEST_LPT", new GreedySolver(GreedySolver.Priority.EST_LPT));
+        solvers.put("greedyEST_SRPT", new GreedySolver(GreedySolver.Priority.EST_SRPT));
         solvers.put("greedyEST_LRPT", new GreedySolver(GreedySolver.Priority.EST_LRPT));
         // ******************* Descent Solver ******************** //
         solvers.put("descentSPT",new DescentSolver(GreedySolver.Priority.SPT));
@@ -38,6 +40,8 @@ public class Main {
         solvers.put("descentSRPT",new DescentSolver(GreedySolver.Priority.SRPT));
         solvers.put("descentLRPT",new DescentSolver(GreedySolver.Priority.LRPT));
         solvers.put("descentEST_SPT",new DescentSolver(GreedySolver.Priority.EST_SPT));
+        solvers.put("descentEST_LPT",new DescentSolver(GreedySolver.Priority.EST_LPT));
+        solvers.put("descentEST_SRPT",new DescentSolver(GreedySolver.Priority.EST_SRPT));
         solvers.put("descentEST_LRPT",new DescentSolver(GreedySolver.Priority.EST_LRPT));
         // ******************* Taboo Solver ******************** //
         solvers.put("taboo(1,1)", new TabooSolver(1, 1));
@@ -51,6 +55,10 @@ public class Main {
         solvers.put("taboo(10,8)", new TabooSolver(10, 8));
         solvers.put("taboo(10,9)", new TabooSolver(10, 9));
         solvers.put("taboo(10,10)", new TabooSolver(10, 10));
+        solvers.put("taboo(10,20)", new TabooSolver(10, 20));
+        solvers.put("taboo(10,50)", new TabooSolver(10, 50));
+        solvers.put("taboo(10,100)", new TabooSolver(10, 100));
+
 
         solvers.put("taboo(100,1)", new TabooSolver(100, 1));
         solvers.put("taboo(100,3)", new TabooSolver(100, 3));

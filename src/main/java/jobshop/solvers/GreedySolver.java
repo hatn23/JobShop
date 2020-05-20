@@ -16,6 +16,8 @@ public class GreedySolver implements Solver {
         SRPT, //Shortest Remaining Processing Time
         LRPT, //Longest Remaining Processing Time
         EST_SPT, //Earliest Start Time & Shortest Processing Time
+        EST_LPT, //Earliest Start Time & Longest Processing Time
+        EST_SRPT, //Earliest Start Time & Shortest Remaining Processing Time
         EST_LRPT //Earliest Start Time & Longest Remaining Processing Time
     }
 
@@ -142,6 +144,7 @@ public class GreedySolver implements Solver {
         releaseTime[machine] = end[task.job][task.task];
     }
 
+    // Same method of SPT
     private Task EST_SPT(Instance instance, ArrayList<Task> listTasks, int[][] end, int[] releaseTime) {
         ArrayList<Task> reduce = listESTTask(instance, listTasks, end, releaseTime);
         Task task = SPT(instance, reduce);
@@ -150,6 +153,24 @@ public class GreedySolver implements Solver {
         return task;
     }
 
+    // Same method of LPT
+    private Task EST_LPT(Instance instance, ArrayList<Task> listTasks, int[][] end, int[] releaseTime) {
+        ArrayList<Task> reduce = listESTTask(instance, listTasks, end, releaseTime);
+        Task task = LPT(instance, reduce);
+        updateEST(instance, task, end, releaseTime);
+        listTasks.remove(task);
+        return task;
+    }
+    // Same method of SRPT
+    private Task EST_SRPT(Instance instance, ArrayList<Task> listTasks, int[][] end, int[] releaseTime, int[] remainingTime) {
+        int[] reduce = EST_RPT(instance, listTasks, remainingTime, end, releaseTime);
+        Task task = SRPT(instance, listTasks, reduce);
+        updateEST(instance, task, end, releaseTime);
+        remainingTime[task.job] = reduce[task.job];
+        return task;
+    }
+
+    // Same method of LRPT
     private Task EST_LRPT(Instance instance, ArrayList<Task> listTasks, int[][] end, int[] releaseTime, int[] remainingTime) {
         int[] reduce = EST_RPT(instance, listTasks, remainingTime, end, releaseTime);
         Task task = LRPT(instance, listTasks, reduce);
@@ -157,7 +178,7 @@ public class GreedySolver implements Solver {
         remainingTime[task.job] = reduce[task.job];
         return task;
     }
-
+    // Same method of listESTTask
     private int[] EST_RPT(Instance instance, ArrayList<Task> listTasks, int[] remainingTime, int[][] endAt, int[] releaseTime) {
         int[] reducer = new int[remainingTime.length];
         Task currentTask = listTasks.get(0);
@@ -222,6 +243,12 @@ public class GreedySolver implements Solver {
                     break;
                 case EST_SPT:
                     task = EST_SPT(instance,listToSchedule,end,releaseTime);
+                    break;
+                case EST_LPT:
+                    task = EST_LPT(instance,listToSchedule,end,releaseTime);
+                    break;
+                case EST_SRPT:
+                    task = EST_SRPT(instance,listToSchedule,end,releaseTime,remainingTime);
                     break;
                 case EST_LRPT:
                     task = EST_LRPT(instance,listToSchedule,end,releaseTime,remainingTime);

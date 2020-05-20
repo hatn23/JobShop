@@ -1,4 +1,18 @@
-java -jar build/libs/JSP.jar --solver descentLPT descentSRPT  --instance aaa1 ft06 ft10 ft20 la01 la06 la09 la11 la21 la26 la40 swv01 swv06 swv11 ta30 ta35 ta60 ta70 > DescentLPT_SRPT.txt
+java -jar build/libs/JSP.jar --solver greedySPT greedyLRPT  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > GreedySPT_LRPT.txt
+java -jar build/libs/JSP.jar --solver greedyLPT greedySRPT  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > GreedyLPT_SRPT.txt
+java -jar build/libs/JSP.jar --solver greedyEST_SPT greedyEST_LRPT  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > GreedyEST_SPT_LRPT.txt
+java -jar build/libs/JSP.jar --solver greedyEST_LPT greedyEST_SRPT  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > GreedyEST_LPT_SRPT.txt
+
+
+
+java -jar build/libs/JSP.jar --solver descentSPT descentLRPT  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > DescentSPT_LRPT.txt
+java -jar build/libs/JSP.jar --solver descentLPT descentSRPT  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > DescentLPT_SRPT.txt
+java -jar build/libs/JSP.jar --solver descentEST_SPT descentEST_LRPT  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > DescentEST_SPT_LRPT.txt
+java -jar build/libs/JSP.jar --solver descentEST_LPT descentEST_SRPT  --instance ft06 ft10 ft20 la01 la05 la10 la15 la20 la25 la30 la35 la40  > DescentEST_LPT_SRPT.txt
+
+
+
+
 
 
                          basic                         random                        
