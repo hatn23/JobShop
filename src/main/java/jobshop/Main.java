@@ -59,7 +59,6 @@ public class Main {
         solvers.put("taboo(10,50)", new TabooSolver(10, 50));
         solvers.put("taboo(10,100)", new TabooSolver(10, 100));
 
-
         solvers.put("taboo(100,1)", new TabooSolver(100, 1));
         solvers.put("taboo(100,3)", new TabooSolver(100, 3));
         solvers.put("taboo(100,5)", new TabooSolver(100, 5));
@@ -75,7 +74,44 @@ public class Main {
         solvers.put("taboo(100,80)", new TabooSolver(100, 80));
         solvers.put("taboo(100,90)", new TabooSolver(100, 90));
         solvers.put("taboo(100,100)", new TabooSolver(100, 100));
-        solvers.put("taboo(5000,5000)", new TabooSolver(5000, 5000));
+        solvers.put("taboo(100,120)", new TabooSolver(100, 120));
+        solvers.put("taboo(100,140)", new TabooSolver(100, 140));
+        solvers.put("taboo(100,160)", new TabooSolver(100, 160));
+        solvers.put("taboo(100,180)", new TabooSolver(100, 180));
+        solvers.put("taboo(100,200)", new TabooSolver(100, 200));
+
+        solvers.put("taboo(500,1)", new TabooSolver(500, 1));
+        solvers.put("taboo(500,3)", new TabooSolver(500, 3));
+        solvers.put("taboo(500,5)", new TabooSolver(500, 5));
+        solvers.put("taboo(500,10)", new TabooSolver(500, 10));
+        solvers.put("taboo(500,12)", new TabooSolver(500, 12));
+        solvers.put("taboo(500,15)", new TabooSolver(500, 15));
+        solvers.put("taboo(500,20)", new TabooSolver(500, 20));
+        solvers.put("taboo(500,30)", new TabooSolver(500, 30));
+        solvers.put("taboo(500,40)", new TabooSolver(500, 40));
+        solvers.put("taboo(500,50)", new TabooSolver(500, 50));
+        solvers.put("taboo(500,60)", new TabooSolver(500, 60));
+        solvers.put("taboo(500,70)", new TabooSolver(500, 70));
+        solvers.put("taboo(500,80)", new TabooSolver(500, 80));
+        solvers.put("taboo(500,90)", new TabooSolver(500, 90));
+        solvers.put("taboo(500,100)", new TabooSolver(500, 100));
+
+        solvers.put("taboo(1000,1)", new TabooSolver(1000, 1));
+        solvers.put("taboo(1000,3)", new TabooSolver(1000, 3));
+        solvers.put("taboo(1000,5)", new TabooSolver(1000, 5));
+        solvers.put("taboo(1000,10)", new TabooSolver(1000, 10));
+        solvers.put("taboo(1000,12)", new TabooSolver(1000, 12));
+        solvers.put("taboo(1000,15)", new TabooSolver(1000, 15));
+        solvers.put("taboo(1000,20)", new TabooSolver(1000, 20));
+        solvers.put("taboo(1000,30)", new TabooSolver(1000, 30));
+        solvers.put("taboo(1000,40)", new TabooSolver(1000, 40));
+        solvers.put("taboo(1000,50)", new TabooSolver(1000, 50));
+        solvers.put("taboo(1000,60)", new TabooSolver(1000, 60));
+        solvers.put("taboo(1000,70)", new TabooSolver(1000, 70));
+        solvers.put("taboo(1000,80)", new TabooSolver(1000, 80));
+        solvers.put("taboo(1000,90)", new TabooSolver(1000, 90));
+        solvers.put("taboo(1000,100)", new TabooSolver(1000, 100));
+
 
     }
 
